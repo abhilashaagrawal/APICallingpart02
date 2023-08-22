@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Calling</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">phone</th>
+            <th scope="col">username</th>
+            <th scope="col">email</th>
+            <th scope="col">company</th>
+            <th scope="col">address</th>
+            <th scope="col">website</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+        </tbody>
+    </table>
+    <script>
+        //1 function defination
+        function getUsersInfo(obj,cbfn){
+            let xhr=new XMLHttpRequest();
+            xhr.open(obj.method,obj.url);
+            xhr.send();
+            xhr.onload=function(){
+                console.log(xhr);
+                cbfn(xhr.responseText);
+            }
+        }
+        //2 function calling
+        getUsersInfo({url:'https://jsonplaceholder.typicode.com/users',method:"GET"},function(response){
+           // console.log(response);
+            response=JSON.parse(response);
+            console.log(response);
+            var tr='';
+            response.forEach((currentElement,index,arr) => {
+                tr+=`<tr>
+                            <td>`+currentElement.id+`</td>
+                            <td>`+currentElement.name+`</td>
+                            <td>`+currentElement.phone+`</td>
+                            <td>`+currentElement.username+`</td>
+                            <td>`+currentElement.email+`</td>
+                            <td>`+currentElement.company+`</td>
+                            <td>`+currentElement.address+`</td>
+                            <td>`+currentElement.website+`</td>
+                        </tr>`;
+            });
+            console.log(tr);
+            document.querySelector('table >tbody').innerHTML=tr;
+            document.querySelector('.spinner-border').remove();
+        })
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>
